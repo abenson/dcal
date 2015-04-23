@@ -3,12 +3,31 @@
 import sys;
 from datetime import date;
 
+def makeDate(month, day):
+	return date(4, month, day)
+
+
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
+
+# For each key,
+# start date, end date, day of week
 cal = {
-	'    Chaos   ': [date(4,  1,  1),  date(4,  3, 14), 0],
-	'   Discord  ': [date(4,  3, 15),  date(4,  5, 26), 3],
-	'  Confusion ': [date(4,  5, 27),  date(4,  8,  7), 1],
-	' Beuracracy ': [date(4,  8,  8),  date(4, 10, 19), 4],
-	'  Aftermath ': [date(4, 10, 20),  date(4, 12, 31), 2]
+	'    Chaos   ': [makeDate(1,  1),  makeDate(3, 14),  0],
+	'   Discord  ': [makeDate(3, 15),  makeDate(5, 26),  3],
+	'  Confusion ': [makeDate(5, 27),  makeDate(8,  7),  1],
+	' Beuracracy ': [makeDate(8,  8),  makeDate(10, 19), 4],
+	'  Aftermath ': [makeDate(10, 20), makeDate(12, 31), 2]
 }
 
 days = [ 'SM', 'BT', 'PD', 'PP', 'SO' ];
@@ -20,7 +39,7 @@ def hasStTibs(year):
 		return False
 
 def getSeason(month, day):
-	greg = date(4, month, day)
+	greg = makeDate(month, day)
 	for season in cal:
 		if greg >= cal[season][0] and greg <= cal[season][1]:
 			return season
@@ -33,16 +52,21 @@ def isStTibs(year, month, day):
 
 def printSeason(year, month, day):
 	season = getSeason(month, day)
+	dosToday = (makeDate(month, day) - cal[season][0]).days
 	print season
+	print '     {0:d}'.format(year+1166)
 	print ' '.join(days)
 	dow = cal[season][2]
 	for times in range(dow):
 		print '  ',
-	for dos in range(1,74):
+	for dos in range(0,73):
 		if dow > 4:
 			dow = 0
 			print ''
-		print '{0:2d}'.format(dos),
+		if dos == dosToday:
+			print color.RED + '{0:2d}'.format(dos+1) + color.END,
+		else:
+			print '{0:2d}'.format(dos+1),
 		dow+=1
 
 
