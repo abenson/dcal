@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+
+import sys;
+from datetime import date;
+
+cal = {
+	'    Chaos   ': [date(4,  1,  1),  date(4,  3, 14), 0],
+	'   Discord  ': [date(4,  3, 15),  date(4,  5, 26), 3],
+	'  Confusion ': [date(4,  5, 27),  date(4,  8,  7), 1],
+	' Beuracracy ': [date(4,  8,  8),  date(4, 10, 19), 4],
+	'  Aftermath ': [date(4, 10, 20),  date(4, 12, 31), 2]
+}
+
+days = [ 'SM', 'BT', 'PD', 'PP', 'SO' ];
+
+def hasStTibs(year):
+	if(year % 4 == 0):
+		return True
+	else:
+		return False
+
+def getSeason(month, day):
+	greg = date(4, month, day)
+	for season in cal:
+		if greg >= cal[season][0] and greg <= cal[season][1]:
+			return season
+
+def isStTibs(year, month, day):
+	if hasStTibs(year) and month == 2 and day == 29:
+		return True
+	else:
+		return False
+
+def printSeason(year, month, day):
+	season = getSeason(month, day)
+	print season
+	print ' '.join(days)
+	dow = cal[season][2]
+	for times in range(dow):
+		print '  ',
+	for dos in range(1,74):
+		if dow > 4:
+			dow = 0
+			print ''
+		print '{0:2d}'.format(dos),
+		dow+=1
+
+
+
+
+today = date.today()
+
+
+printSeason(today.year, today.month, today.day)
