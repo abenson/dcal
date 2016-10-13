@@ -1,4 +1,9 @@
 # dcal
 Discordian Date Calendar
 
-![Example](http://i.imgur.com/AWeEQtF.png)
+![Example](demo/dcal.png)
+
+# tdate
+Tamrielan Date
+
+![Example](demo/tdate.png)
