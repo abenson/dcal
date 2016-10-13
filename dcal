@@ -26,7 +26,7 @@ cal = {
 	'    Chaos   ': [makeDate(1,  1),  makeDate(3, 14),  0],
 	'   Discord  ': [makeDate(3, 15),  makeDate(5, 26),  3],
 	'  Confusion ': [makeDate(5, 27),  makeDate(8,  7),  1],
-	' Beuracracy ': [makeDate(8,  8),  makeDate(10, 19), 4],
+	' Bureaucracy': [makeDate(8,  8),  makeDate(10, 19), 4],
 	'  Aftermath ': [makeDate(10, 20), makeDate(12, 31), 2]
 }
 
