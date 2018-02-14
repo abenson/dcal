@@ -53,22 +53,22 @@ def isStTibs(year, month, day):
 def printSeason(year, month, day):
 	season = getSeason(month, day)
 	dosToday = (makeDate(month, day) - cal[season][0]).days
-	print season
-	print '     {0:d}'.format(year+1166)
-	print ' '.join(days)
+	print(season)
+	print('     {0:d}'.format(year+1166))
+	print(' '.join(days))
 	dow = cal[season][2]
 	for times in range(dow):
-		print '  ',
+		print('  ', end='')
 	for dos in range(0,73):
 		if dow > 4:
 			dow = 0
-			print ''
+			print('')
 		if dos == dosToday:
-			print color.RED + '{0:2d}'.format(dos+1) + color.END,
+			print(color.RED + '{0:2d} '.format(dos+1) + color.END, end='')
 		else:
-			print '{0:2d}'.format(dos+1),
+			print('{0:2d} '.format(dos+1), end='')
 		dow+=1
-
+	print('')
 
 
 
