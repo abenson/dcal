@@ -48,4 +48,4 @@ gdate = case ARGV.size
 		exit
 end
 
-puts "#{days[gdate.wday]}, the #{gdate.day.ordinalize} of #{months[gdate.month]}."
+puts "#{days[gdate.wday]}, the #{gdate.day.ordinalize} of #{months[gdate.month-1]}."
