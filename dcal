@@ -58,7 +58,7 @@ def printSeason(year, month, day):
 	print(' '.join(days))
 	dow = cal[season][2]
 	for times in range(dow):
-		print('  ', end='')
+		print('   ', end='')
 	for dos in range(0,73):
 		if dow > 4:
 			dow = 0
