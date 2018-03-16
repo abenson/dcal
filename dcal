@@ -74,8 +74,23 @@ def printSeason(year, month, day):
 	print('')
 
 
-
 today = date.today()
 
+parser = argparse.ArgumentParser(description='Display the discordian calendar.')
+parser.add_argument('year', type=int, nargs='?', help='Show the calendar for the specified year')
+parser.add_argument('month', type=int, nargs='?', help='Show the calendar for the specified month')
+parser.add_argument('day', type=int, nargs='?', help='Show the calendar for the specified day')
+args = parser.parse_args()
 
-printSeason(today.year, today.month, today.day)
+if args.year != None and args.month != None and args.day != None:
+	if args.month < 1 or args.month > 12:
+		print('Month is out of range.')
+		exit()
+	if args.day < 1 or args.day > 31:
+		print('Day is out of range.')
+		exit()
+	printSeason(args.year, args.month, args.day)
+elif args.year == None and args.month == None and args.day == None:
+	printSeason(today.year, today.month, today.day)
+else:
+	print('Currently showing calendar spans is not supported.')
