@@ -26,20 +26,28 @@ class color:
 # For each key,
 # start date, end date, day of week
 cal = {
-	'    Chaos   ': [makeDate(1,  1),  makeDate(3, 14),  0],
-	'   Discord  ': [makeDate(3, 15),  makeDate(5, 26),  3],
-	'  Confusion ': [makeDate(5, 27),  makeDate(8,  7),  1],
-	' Bureaucracy': [makeDate(8,  8),  makeDate(10, 19), 4],
-	'  Aftermath ': [makeDate(10, 20), makeDate(12, 31), 2]
+	'Chaos': [makeDate(1,  1),  makeDate(3, 14),  0],
+	'Discord': [makeDate(3, 15),  makeDate(5, 26),  3],
+	'Confusion': [makeDate(5, 27),  makeDate(8,  7),  1],
+	'Bureaucracy': [makeDate(8,  8),  makeDate(10, 19), 4],
+	'Aftermath': [makeDate(10, 20), makeDate(12, 31), 2]
 }
 
 days = [ 'SM', 'BT', 'PD', 'PP', 'SO' ];
 
+def yearOfDiscord(year):
+	# After `X-Day' passed without incident, the Church of the SubGenius
+	# declared that it had got the year upside down - X-Day is actually in
+	# 8661 AD rather than 1998 AD.  Thus, the True X-Day is Cfn 40, 9827.
+	return year+1166
+
 def hasStTibs(year):
-	if(year % 4 == 0):
-		return True
-	else:
+	try:
+		date(year, 2, 29)
+	except ValueError:
 		return False
+	else:
+		return True
 
 def getSeason(month, day):
 	greg = makeDate(month, day)
@@ -54,18 +62,27 @@ def isStTibs(year, month, day):
 		return False
 
 def printSeason(year, month, day):
+	try:
+		if isStTibs(year, month, day):
+			print("Today is St. Tib's Day, YOLD {0:d}!".format(yearOfDiscord(year)))
+			return
+	except:
+		print("Date out of range.")
+		return
 	season = getSeason(month, day)
 	dosToday = (makeDate(month, day) - cal[season][0]).days
-	print(season)
-	print('     {0:d}'.format(year+1166))
+	print('{0:^18}'.format(season + " " + str(yearOfDiscord(year))))
+	print('  ', end='')
 	print(' '.join(days))
 	dow = cal[season][2]
+	print('  ', end='')
 	for times in range(dow):
 		print('   ', end='')
 	for dos in range(0,73):
 		if dow > 4:
 			dow = 0
 			print('')
+			print('  ', end='')
 		if dos == dosToday:
 			print(color.RED + '{0:2d} '.format(dos+1) + color.END, end='')
 		else:
@@ -73,24 +90,19 @@ def printSeason(year, month, day):
 		dow+=1
 	print('')
 
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description='Display the discordian calendar.')
+	parser.add_argument('year', type=int, nargs='?', help='Show the calendar for the specified year')
+	parser.add_argument('month', type=int, nargs='?', help='Show the calendar for the specified month')
+	parser.add_argument('day', type=int, nargs='?', help='Show the calendar for the specified day')
+	args = parser.parse_args()
 
-today = date.today()
-
-parser = argparse.ArgumentParser(description='Display the discordian calendar.')
-parser.add_argument('year', type=int, nargs='?', help='Show the calendar for the specified year')
-parser.add_argument('month', type=int, nargs='?', help='Show the calendar for the specified month')
-parser.add_argument('day', type=int, nargs='?', help='Show the calendar for the specified day')
-args = parser.parse_args()
-
-if args.year != None and args.month != None and args.day != None:
-	if args.month < 1 or args.month > 12:
-		print('Month is out of range.')
-		exit()
-	if args.day < 1 or args.day > 31:
-		print('Day is out of range.')
-		exit()
-	printSeason(args.year, args.month, args.day)
-elif args.year == None and args.month == None and args.day == None:
+	try:
+		if args.year != None and args.month != None and args.day != None:
+			today = date(args.year, args.month, args.day)
+		else:
+			today = date.today()
+	except ValueError:
+		print('Date is out of range.')
+		sys.exit(1)
 	printSeason(today.year, today.month, today.day)
-else:
-	print('Currently showing calendar spans is not supported.')
