@@ -96,12 +96,16 @@ if __name__ == "__main__":
 	parser.add_argument('month', type=int, nargs='?', help='Show the calendar for the specified month')
 	parser.add_argument('year', type=int, nargs='?', help='Show the calendar for the specified year')
 	args = parser.parse_args()
+	nargs = len([x for x in (args.year, args.day, args.month) if x is not None])
 
 	try:
-		if args.year != None and args.month != None and args.day != None:
+		if nargs == 3:
 			today = date(args.year, args.month, args.day)
-		else:
+		elif nargs == 0:
 			today = date.today()
+		else:
+			parser.print_help()
+			sys.exit(1)
 	except ValueError:
 		print('Date is out of range.')
 		sys.exit(1)
