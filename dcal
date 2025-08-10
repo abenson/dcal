@@ -56,7 +56,7 @@ def printSeason(year, month, day):
 	season = getSeason(month, day)
 	dosToday = None
 	if isStTibs(year, month, day):
-		print('Today is St. Tib\'s Day in the YOLD {0}.'.format(year+1166))
+		print(color.RED + 'Today is St. Tib\'s Day in the YOLD {0}.'.format(year+1166) + color.END)
 	else:
 		dosToday = (makeDate(month, day) - cal[season][0]).days
 	print(season)
