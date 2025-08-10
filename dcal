@@ -4,7 +4,10 @@ import sys;
 from datetime import date;
 
 def makeDate(month, day):
-	return date(4, month, day)
+	try:
+		return date(1, month, day)
+	except:
+		return None
 
 
 class color:
@@ -40,6 +43,8 @@ def hasStTibs(year):
 
 def getSeason(month, day):
 	greg = makeDate(month, day)
+	if greg == None: # i.e. St. Tib's Day
+		return list(cal.keys())[0]
 	for season in cal:
 		if greg >= cal[season][0] and greg <= cal[season][1]:
 			return season
@@ -52,7 +57,11 @@ def isStTibs(year, month, day):
 
 def printSeason(year, month, day):
 	season = getSeason(month, day)
-	dosToday = (makeDate(month, day) - cal[season][0]).days
+	dosToday = None
+	if isStTibs(year, month, day):
+		print('Today is St. Tib\'s Day in the YOLD {0}.'.format(year+1166))
+	else:
+		dosToday = (makeDate(month, day) - cal[season][0]).days
 	print(season)
 	print('     {0:d}'.format(year+1166))
 	print(' '.join(days))
