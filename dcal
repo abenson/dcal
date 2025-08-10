@@ -7,7 +7,10 @@ def makeDate(month, day):
 	try:
 		return date(1, month, day)
 	except:
-		return None
+		if month == 2 and day == 29:
+			return 'StTibsDay'
+		else:
+			return None
 
 
 class color:
@@ -36,24 +39,18 @@ cal = {
 days = [ 'SM', 'BT', 'PD', 'PP', 'SO' ];
 
 def hasStTibs(year):
-	if(year % 4 == 0):
-		return True
-	else:
-		return False
+	return (year % 4) == 0
 
 def getSeason(month, day):
 	greg = makeDate(month, day)
-	if greg == None: # i.e. St. Tib's Day
+	if greg == 'StTibsDay': # St. Tib's is always in Chaos
 		return list(cal.keys())[0]
 	for season in cal:
 		if greg >= cal[season][0] and greg <= cal[season][1]:
 			return season
 
 def isStTibs(year, month, day):
-	if hasStTibs(year) and month == 2 and day == 29:
-		return True
-	else:
-		return False
+	return hasStTibs(year) and makeDate(month, day) == 'StTibsDay'
 
 def printSeason(year, month, day):
 	season = getSeason(month, day)
