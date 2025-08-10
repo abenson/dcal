@@ -79,9 +79,6 @@ def printSeason(year, month, day):
 		dow+=1
 	print('')
 
-
-
 today = date.today()
-
 
 printSeason(today.year, today.month, today.day)
